@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Url Shortner</title>
+    
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top:50px; }
+    </style>
+</head>
+<main>
+    <div class="jumbotron text-center">
+        <h1 class="text-center">Url Shortner</h1>
+        <br>
+        <br>
+        <form action="/shortUrls" method="post">
+            <!-- <label class="col-form-label col-form-label-lg" for="fullUrl">Url</label> -->
+            <input required placeholder="example.com" type="url" name="fullUrl" id="fullUrl" class="col">
+            <button class="btn btn-dark my-5" type="submit">Shrink</button>
+        </form>
+        <br>
+        <label class="col-form-label col-form-label-lg" for="shortUrllabel">Shortened Url:    </label>
+        <label class="col-form-label col-form-label-lg" for="shortUrl"><a href="<%= 'http://localhost:5000/' + shortened %>"><%= 'http://localhost:5000/' + shortened %></a></label>
+    </div>
+</main>
+<footer>
+    <p class="text-center text-muted">Simple Url Shortner Made with Nodejs</p>
+</footer>
+</html>
+
+
+<!-- <div class="container-fluid">
+    <h1 class="text-muted">SHORT URLS</h1>
+    <form action="" method="post">
+        <label class="col-form-label col-form-label-lg" for="fullUrl">Url</label>
+        <input type="url" name="fullUrl" id="fullUrl">
+        <button class="btn btn-dark" type="submit">Shrink</button>
+        <br>
+        <label class="col-form-label col-form-label-lg" for="shortUrllabel">Shortened Url: </label>
+        <label class="col-form-label col-form-label-lg" for="shortUrl">abcdef</label>
+    </form>
+    </div> -->
