@@ -7,10 +7,10 @@
         </div>
         <form class="mx-auto" @submit.prevent="formRequest">
             <label style="max-width: 384px;" class=" overflow-x-auto inline-block">{{ test(urlName) }}</label>
-            <br v-if="isUsed"/>
-            <label v-if="isUsed" style="max-width: 384px;">Already in use</label>
+            <br class="hidden" id="break-remove"/>
+            <label class="hidden text-red-400" id="label-remove" style="max-width: 384px;">Already in use</label>
             <br />
-            <input type="text" placeholder="Enter shortened name" v-model="urlName" @change="slugRequest" class="p-2 w-96 my-5 text-black" required/>
+            <input type="text" placeholder="Enter shortened name" v-model="urlName" class="p-2 w-96 my-5 text-black" required/>
             <br />
             <label style="max-width: 384px;" class=" overflow-x-auto inline-block">Link: {{ link }}</label>
             <br />
@@ -24,7 +24,6 @@
 const urlName = ref("")
 const link = ref("")
 const urlFromServer = ref("")
-var isUsed = ref(false)
 
 const test = (urlName) => {
     if(!urlName) {
@@ -47,42 +46,41 @@ const formRequest = async() => {
                 url: link.value
             }
         })
-        console.log(data.body.slug)
+        // console.log(data.body.slug)
         if(data) {
             urlFromServer.value = `${window.location.href}${data.body.slug}`
             urlName.value = ""
             link.value = ""
         }
     } catch (error) {
-        // urlFromServer.value = "Error! Something went wrong."
-        urlFromServer.value = "Error! URL already in use"
+        urlFromServer.value = "Error! Something went wrong."
+        // urlFromServer.value = "Error! URL already in use"
     }
 }
 
+await useFetch(`/api/check`, {
+    method: 'POST',
+    body: {
+        'slug': urlName
+    },
+    watch: [urlName],
+    onResponse(request, response, options) {
+        if(request.response._data.used) {
 
-// watch(urlName, async (changed) => {
-//     try {
-//         if (changed !== "") {
-//             const data = await $fetch('/api/check', {
-//                 method: 'POST',
-//                 body: {
-//                     slug: changed,
-//                 }
-//             })
-//             isUsed = data.used
-//             if (data.used) {
-//                 console.log(isUsed)
-//                 urlFromServer.value = `${window.location.href}${data.body.slug}`
-//                 urlName.value = ""
-//                 link.value = ""
-//             }
-//         }
-//     } catch (error) {
-//         console.log(error)
-//         urlFromServer.value = "Error! Something went wrong."
-//     }
-// })
-// const slugRequest = async() => {
+        }
+        if(request.response._data.used) {
+            document.getElementById('break-remove').classList.remove('hidden')
+            document.getElementById('label-remove').classList.remove('hidden')
+        } 
+        else {
+            if(!document.getElementById('break-remove').classList.contains('hidden')) {
+                document.getElementById('break-remove').classList.add('hidden')
+            }
+            if(!document.getElementById('label-remove').classList.contains('hidden')) {
+                document.getElementById('label-remove').classList.add('hidden')
+            }
+        }
+    }
+})
 
-// }
 </script>

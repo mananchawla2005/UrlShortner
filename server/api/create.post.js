@@ -13,7 +13,7 @@ const stringIsAValidUrl = (s) => {
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const { slug, url } = body
-    console.log(slug)
+    // console.log(slug)
     if (!slug || !url) {
         return sendError(event, createError({
             statusCode: 400,
